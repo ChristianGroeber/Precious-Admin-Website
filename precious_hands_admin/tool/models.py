@@ -19,6 +19,9 @@ class Child(models.Model):
     birthday = models.DateField()
     image = models.ImageField(blank=True)
 
+    def __str__(self):
+        return str(self.first_name) + ' ' + str(self.name)
+
 
 class Donor(models.Model):
     name = models.CharField(max_length=200)
@@ -29,10 +32,16 @@ class Donor(models.Model):
     plz = models.CharField(max_length=4)
     city = models.CharField(max_length=50)
 
+    def __str__(self):
+        return str(self.first_name) + ' ' + str(self.name)
+
 
 class PaymentInterval(models.Model):
     description = models.CharField(max_length=20)
     amount_months = models.IntegerField()
+
+    def __str__(self):
+        return self.description
 
 
 class DonationPlan(models.Model):

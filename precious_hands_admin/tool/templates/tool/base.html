@@ -1,12 +1,16 @@
-<!DOCTYPE html>
+{% load static %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Precious Hands Tool</title>
+    <link rel='stylesheet' href="{% static 'css/bootstrap.min.css' %}">
 </head>
 <body>
+<main role="main" class="container">
 <h1>Welcome to the Precious Hands Tool</h1>
 {% block content %}
 {% endblock %}
+</main>
 </body>
 </html>
