@@ -2,6 +2,10 @@
 
 {% block content %}
 <h6>{{ option }}</h6>
-<p>{{obj.birthday}}</p>
+<form class="create" method="POST">
+        {% csrf_token %}
+        {{form.as_p }}
+        <button type="submit">Save</button>
+</form>
 
 {% endblock %}

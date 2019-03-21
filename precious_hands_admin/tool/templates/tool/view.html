@@ -3,6 +3,6 @@
 {% block content %}
 <h6>{{ option }}</h6>
 {% for x in ret %}
-<p><a href="../../edit/{{ option }}/{{x.id}}">{{x}}</a></p>
+<p><a href="../../{{ option }}/edit/{{x.id}}">{{x}}</a></p>
 {% endfor %}
 {% endblock %}

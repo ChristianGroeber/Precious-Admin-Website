@@ -50,3 +50,6 @@ class DonationPlan(models.Model):
     interval = ForeignKey(PaymentInterval, on_delete=models.CASCADE)
     amount = models.IntegerField()
     until = models.DateField()
+
+    def __str__(self):
+        return str(self.donor) + 'donates to ' + str(self.child) + ' ' + str(self.interval)

@@ -1,0 +1,21 @@
+body{
+    padding-top: 0px !important;
+}
+
+.navbar>.container {
+    justify-content:center !important;
+}
+
+h1{
+    padding-right: 20px !important;
+    padding-left: 20px !important;
+    color: white !important;
+}
+
+.navbar{
+    background-color: #101010 !important;
+}
+
+main{
+    margin-top: 20px !important;
+}
