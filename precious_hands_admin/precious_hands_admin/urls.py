@@ -16,9 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from precious_hands_admin import tool
-
 urlpatterns = [
-    path('/', include(tool.urls)),
+    path('', include('tool.urls')),
     path('admin/', admin.site.urls),
 ]
