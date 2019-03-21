@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'tool/base.html' %}
 
-</body>
-</html>
+{% block content %}
+<h4>What would you like to do?</h4>
+<ul>
+    <li><a href="create/child">Create Child</a></li>
+    <li><a href="create/donor">Create Donor</a></li>
+    <li><a href="create/donation_plan">Create Donation Plan</a></li>
+</ul>
+{% endblock %}
