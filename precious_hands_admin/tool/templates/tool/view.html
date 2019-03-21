@@ -1,0 +1,8 @@
+{% extends 'tool/base.html' %}
+
+{% block content %}
+<h6>{{ option }}</h6>
+{% for x in ret %}
+<p><a href="../../edit/{{ option }}/{{x.id}}">{{x}}</a></p>
+{% endfor %}
+{% endblock %}

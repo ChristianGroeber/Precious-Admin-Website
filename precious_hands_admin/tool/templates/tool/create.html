@@ -1,6 +1,7 @@
 {% extends 'tool/base.html' %}
 
 {% block content %}
+<h6>Add a new {{ option }}</h6>
 <form class="create" method="POST">
         {% csrf_token %}
         {{form.as_p }}

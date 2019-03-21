@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.template import loader
 from .forms import CreateChild, CreateDonationPlan, CreateDonor, LoginUser
-from .models import User
+from .models import User, Child, Donor, DonationPlan
 
 # Create your views here.
 
@@ -42,4 +42,21 @@ def create(request, option):
             form = CreateDonor()
         elif option == 'donation_plan':
             form = CreateDonationPlan()
-        return render(request, 'tool/create.html', {'form': form})
+        return render(request, 'tool/create.html', {'form': form, 'option': option})
+
+
+def view(request, option):
+    ret = []
+    objs = None
+    if option == 'child':
+        objs = Child.objects.all()
+    for obj in objs:
+        ret.append(obj)
+    return render(request, 'tool/view.html', {'option': option, 'ret': ret})
+
+
+def edit(request, option, id):
+    obj = None
+    if option == 'child':
+        obj = Child.objects.get(pk=id)
+    return render(request, 'tool/edit.html', {'option': option, 'obj': obj})
