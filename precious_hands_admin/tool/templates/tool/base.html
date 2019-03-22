@@ -10,8 +10,15 @@
 <body>
 <div class="navbar navbar-fixed-top navbar-inverse">
     <div class="container navbar-header">
-        <img src="{% static 'img/Precious_Logo.png' %}" width="80">
-        <a href="/tool"><h1>Precious Hands Administration Tool</h1></a>
+        <div class="row">
+            <div class="col-sm-8">
+                    <img src="{% static 'img/Precious_Logo.png' %}" width="80">
+                    <a href="/tool"><h1>Precious Hands Administration Tool</h1></a>
+            </div>
+            <div class="col-sm-4">
+                <a href="tool/user/edit/"></a>
+            </div>
+        </div>
     </div>
 </div>
 <main role="main" class="container">

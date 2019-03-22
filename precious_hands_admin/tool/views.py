@@ -1,35 +1,46 @@
+import django
 from django.shortcuts import render, redirect, get_object_or_404
-from django.template import loader
 from .forms import CreateChild, CreateDonationPlan, CreateDonor, LoginUser
-from .models import User, Child, Donor, DonationPlan
+from .models import Child, Donor, DonationPlan
+from django.contrib.auth import authenticate, login, forms
+from django.contrib.auth.models import User
+
 
 # Create your views here.
 
 
-def login(request):
-    form = LoginUser()
+def user_login(request):
+    form = forms.AuthenticationForm()
+    print(form)
     if request.method == 'POST':
-        form = LoginUser(request.POST)
-        if form.is_valid():
-            user = User.objects.all()
-            for u in user:
-                if u.name == form.cleaned_data['name'] and u.password == form.cleaned_data['password']:
-                    return redirect('index')
+        print('post')
+        form = forms.AuthenticationForm(request.POST)
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('index')
     return render(request, 'login/login.html', {'form': form})
 
 
 def index(request):
-    return render(request, 'tool/index.html')
+    if str(request.user) is 'AnonymousUser':
+        return redirect('login')
+    return render(request, 'tool/index.html', {'user_type': request.user.is_superuser})
 
 
 def create(request, option):
-    print(option)
+    if str(request.user) is 'AnonymousUser':
+        return redirect('login')
     if request.method == 'POST':
         form = CreateChild(request.POST)
         if option == 'donor':
             form = CreateDonor(request.POST)
         elif option == 'donation_plan':
             form = CreateDonationPlan(request.POST)
+        elif option == 'user' and request.user.is_superuser:
+            form = forms.UserCreationForm(request.POST)
         if form.is_valid():
             form_data = form.save(commit=False)
             form_data.save()
@@ -42,10 +53,14 @@ def create(request, option):
             form = CreateDonor()
         elif option == 'donation_plan':
             form = CreateDonationPlan()
+        elif option == 'user' and request.user.is_superuser:
+            form = forms.UserCreationForm()
         return render(request, 'tool/create.html', {'form': form, 'option': option})
 
 
 def view(request, option):
+    if str(request.user) is 'AnonymousUser':
+        return redirect('login')
     ret = []
     objs = None
     if option == 'child':
@@ -54,12 +69,16 @@ def view(request, option):
         objs = Donor.objects.all()
     elif option == 'donation_plan':
         objs = DonationPlan.objects.all()
+    elif option == 'user' and request.user.is_superuser:
+        objs = django.contrib.auth.models.User.objects.all()
     for obj in objs:
         ret.append(obj)
     return render(request, 'tool/view.html', {'option': option, 'ret': ret})
 
 
 def edit(request, option, id):
+    if str(request.user) is 'AnonymousUser':
+        return redirect('login')
     obj = None
     form = None
     if option == 'child':
@@ -71,6 +90,8 @@ def edit(request, option, id):
     elif option == 'donation_plan':
         obj = get_object_or_404(DonationPlan, id=id)
         form = CreateDonationPlan(request.POST or None, instance=obj)
+    elif option == 'user' and request.user.is_superuser:
+        form = forms.UserChangeForm(request.POST or None, instance=request.user)
     if form.is_valid():
         form.save()
         return redirect('index')

@@ -5,14 +5,6 @@ from django.db import models
 from django.db.models import ForeignKey
 
 
-class User(models.Model):
-    name = models.CharField(max_length=200)
-    first_name = models.CharField(max_length=200)
-    email_address = models.CharField(max_length=300, default="")
-    password = models.CharField(max_length=200, default="1234")
-    is_admin = models.BooleanField(default=False)
-
-
 class Child(models.Model):
     name = models.CharField(max_length=200)
     first_name = models.CharField(max_length=200)

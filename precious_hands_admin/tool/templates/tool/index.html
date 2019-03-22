@@ -7,6 +7,9 @@
     <li><a href="child/create">Create Child</a></li>
     <li><a href="donor/create">Create Donor</a></li>
     <li><a href="donation_plan/create/">Create Donation Plan</a></li>
+    {% if user_type %}
+        <li><a href="user/create/">Create new User</a></li>
+    {% endif %}
 </ul>
 
 <h5>View: </h5>
@@ -14,5 +17,8 @@
     <li><a href="child/view">View Child</a></li>
     <li><a href="donor/view">View Donor</a></li>
     <li><a href="donation_plan/view">View Donation Plan</a></li>
+    {% if user_type %}
+        <li><a href="user/view/">View Users</a></li>
+    {% endif %}
 </ul>
 {% endblock %}

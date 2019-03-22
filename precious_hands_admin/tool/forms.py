@@ -1,5 +1,5 @@
 from django import forms
-from .models import Child, Donor, DonationPlan, User
+from .models import Child, Donor, DonationPlan
 
 
 class CreateChild(forms.ModelForm):
@@ -22,5 +22,9 @@ class CreateDonationPlan(forms.ModelForm):
 
 class LoginUser(forms.ModelForm):
     class Meta:
-        model = User
         fields = ('name', 'password')
+
+
+class CreateUser(forms.Form):
+    username = forms.CharField(max_length=150)
+    first_name = forms.CharField(max_length=150)
