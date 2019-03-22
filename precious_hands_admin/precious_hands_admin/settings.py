@@ -68,6 +68,8 @@ TEMPLATES = [
     },
 ]
 
+SESSION_COOKIE_AGE = 20 * 60
+
 WSGI_APPLICATION = 'precious_hands_admin.wsgi.application'
 
 

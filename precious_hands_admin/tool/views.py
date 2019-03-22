@@ -2,7 +2,7 @@ import django
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CreateChild, CreateDonationPlan, CreateDonor, LoginUser
 from .models import Child, Donor, DonationPlan
-from django.contrib.auth import authenticate, login, forms
+from django.contrib.auth import authenticate, login, logout, forms
 from django.contrib.auth.models import User
 
 
@@ -96,3 +96,10 @@ def edit(request, option, id):
         form.save()
         return redirect('index')
     return render(request, 'tool/edit.html', {'option': option, 'form': form})
+
+
+def user_logout(request):
+    if str(request.user) is 'AnonymousUser':
+        return redirect('login')
+    logout(request)
+    return redirect('login')
