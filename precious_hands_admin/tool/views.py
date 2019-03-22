@@ -1,6 +1,6 @@
 import django
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CreateChild, CreateDonationPlan, CreateDonor, LoginUser
+from .forms import CreateChild, CreateDonationPlan, CreateDonor, CustomUserCreationForm
 from .models import Child, Donor, DonationPlan
 from django.contrib.auth import authenticate, login, logout, forms
 from django.contrib.auth.models import User
@@ -39,8 +39,6 @@ def create(request, option):
             form = CreateDonor(request.POST)
         elif option == 'donation_plan':
             form = CreateDonationPlan(request.POST)
-        elif option == 'user' and request.user.is_superuser:
-            form = forms.UserCreationForm(request.POST)
         if form.is_valid():
             form_data = form.save(commit=False)
             form_data.save()
@@ -98,8 +96,30 @@ def edit(request, option, id):
     return render(request, 'tool/edit.html', {'option': option, 'form': form})
 
 
+def create_user(request):
+    if str(request.user) is 'AnonymousUser':
+        return redirect('login')
+    form = forms.UserCreationForm()
+    if request.method == 'POST' and form.is_valid():
+        print(request.POST)
+        user = User.objects.create_user(username=request.POST['username'], password=request.POST['password1'])
+        forms.UserCreationForm(request.POST).save()
+    print(request.method)
+    return render(request, 'tool/create.html', {'form': form})
+
+
 def user_logout(request):
     if str(request.user) is 'AnonymousUser':
         return redirect('login')
     logout(request)
     return redirect('login')
+
+
+def edit_user(request):
+    if str(request.user) is 'AnonymousUser':
+        return redirect('login')
+    form = CustomUserCreationForm(request.POST)
+    if request.method == 'POST':
+        form.save(request)
+        return redirect('index')
+    return render(request, 'tool/edit.html', {'form': form})
