@@ -1,7 +1,7 @@
 import django
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CreateChild, CreateDonationPlan, CreateDonor, CustomUserCreationForm, Donate
-from .models import Child, Donor, DonationPlan
+from .models import Child, Donor, DonationPlan, Donation
 from django.contrib.auth import authenticate, login, logout, forms
 from django.contrib.auth.models import User
 
@@ -70,6 +70,8 @@ def view(request, option):
         objs = DonationPlan.objects.all()
     elif option == 'user' and request.user.is_superuser:
         objs = django.contrib.auth.models.User.objects.all()
+    elif option == 'donate':
+        objs = Donation.objects.all()
     for obj in objs:
         ret.append(obj)
     return render(request, 'tool/view.html', {'option': option, 'ret': ret})
@@ -82,6 +84,10 @@ def donate(request, id=None):
     else:
         donation_plan = DonationPlan.objects.all()
     form = Donate()
+    if request.method=='POST':
+        form = Donate(request.POST)
+        form.save()
+        return redirect('index')
     return render(request, 'tool/donate.html', {'donation_plan': donation_plan, 'form': form})
 
 
