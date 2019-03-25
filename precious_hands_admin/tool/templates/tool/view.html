@@ -3,6 +3,13 @@
 {% block content %}
 <h6>{{ option }}</h6>
 {% for x in ret %}
-<p><a href="../../{{ option }}/edit/{{x.id}}">{{x}}</a></p>
+<p><a href="../../{{ option }}/edit/{{x.id}}">{{x}}</a>
+    <script>
+        console.log("{{ option }}");
+    </script>
+{% if option == "donation_plan" %}
+    <a href="../donate/{{x.id}}"> | Donate</a>
+    {% endif %}
+</p>
 {% endfor %}
 {% endblock %}

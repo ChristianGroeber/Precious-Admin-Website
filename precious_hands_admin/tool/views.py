@@ -75,6 +75,11 @@ def view(request, option):
     return render(request, 'tool/view.html', {'option': option, 'ret': ret})
 
 
+def donate(request, id):
+    donation_plan = get_object_or_404(DonationPlan, id=id)
+    return render(request, 'tool/donate.html', {'donation_plan': donation_plan})
+
+
 def edit(request, option, id):
     if str(request.user) is 'AnonymousUser':
         return redirect('login')
