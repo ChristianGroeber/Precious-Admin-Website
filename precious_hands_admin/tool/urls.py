@@ -8,6 +8,7 @@ urlpatterns = [
     url('/tool/logout/', views.user_logout, name='logout'),
     path('tool/', views.index, name='index'),
     path('tool/donation_plan/donate/<id>/', views.donate),
+    path('tool/donation_plan/donate/', views.donate),
     path('tool/user/create/', views.create_user),
     path('tool/<option>/create/', views.create),
     path('tool/<option>/view/', views.view),

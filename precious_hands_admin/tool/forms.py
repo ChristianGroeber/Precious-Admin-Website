@@ -60,4 +60,4 @@ class CustomUserCreationForm(forms.Form):
 class Donate(forms.ModelForm):
     class Meta:
         model = Donation
-        fields = ('date_donated', )
+        fields = ('donation_plan', 'date_donated')

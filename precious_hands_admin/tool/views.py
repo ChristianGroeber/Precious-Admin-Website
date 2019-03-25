@@ -75,8 +75,12 @@ def view(request, option):
     return render(request, 'tool/view.html', {'option': option, 'ret': ret})
 
 
-def donate(request, id):
-    donation_plan = get_object_or_404(DonationPlan, id=id)
+def donate(request, id=None):
+    donation_plan = None
+    if id:
+        donation_plan = get_object_or_404(DonationPlan, id=id)
+    else:
+        donation_plan = DonationPlan.objects.all()
     form = Donate()
     return render(request, 'tool/donate.html', {'donation_plan': donation_plan, 'form': form})
 
