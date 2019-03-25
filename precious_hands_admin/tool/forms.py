@@ -1,9 +1,6 @@
 from django import forms
-from django.core.exceptions import ValidationError
 
 from .models import Child, Donor, DonationPlan, Donation
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
 
 
 class CreateChild(forms.ModelForm):
@@ -34,30 +31,11 @@ class CreateUser(forms.Form):
     first_name = forms.CharField(max_length=150)
 
 
-class CustomUserCreationForm(forms.Form):
-    username = forms.CharField(label='Enter Username', min_length=4, max_length=150)
-    email = forms.EmailField(label='Enter email')
-    password1 = forms.CharField(label='Enter password', widget=forms.PasswordInput, required=False)
-    password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput, required=False)
-
-    def clean_username(self):
-        username = self.cleaned_data['username'].lower()
-        r = User.objects.filter(username=username)
-        if r.count():
-            raise ValidationError("Username already exists")
-        return username
-
-    def save(self, request, commit=True):
-        print(str(self.cleaned_data['username']))
-        User.save(
-            request.user,
-            username=self.cleaned_data['username'],
-            password=self.cleaned_data['password1'],
-            email=self.email
-        )
-
-
 class Donate(forms.ModelForm):
     class Meta:
         model = Donation
         fields = ('donation_plan', 'date_donated')
+
+
+class ImportForm(forms.Form):
+    file = forms.FileField(allow_empty_file=False)

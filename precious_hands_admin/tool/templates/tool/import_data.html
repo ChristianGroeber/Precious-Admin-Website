@@ -1,0 +1,9 @@
+{% extends 'tool/base.html' %}
+
+{% block content %}
+<h4>Import Data</h4>
+<form class="import" method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+</form>
+{% endblock %}

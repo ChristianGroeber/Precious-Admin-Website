@@ -1,6 +1,6 @@
 import django
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CreateChild, CreateDonationPlan, CreateDonor, CustomUserCreationForm, Donate
+from .forms import CreateChild, CreateDonationPlan, CreateDonor, Donate, ImportForm
 from .models import Child, Donor, DonationPlan, Donation
 from django.contrib.auth import authenticate, login, logout, forms
 from django.contrib.auth.models import User
@@ -11,14 +11,11 @@ from django.contrib.auth.models import User
 
 def user_login(request):
     form = forms.AuthenticationForm()
-    print(form)
     if request.method == 'POST':
-        print('post')
         form = forms.AuthenticationForm(request.POST)
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
-        print(user)
         if user is not None:
             login(request, user)
             return redirect('index')
@@ -39,7 +36,7 @@ def create(request, option):
         if option == 'donor':
             form = CreateDonor(request.POST)
         elif option == 'donation_plan':
-            form = CreateDonationPlan(request.POST)
+            form = forms.UserCreationForm(request.POST)
         if form.is_valid():
             form_data = form.save(commit=False)
             form_data.save()
@@ -79,12 +76,13 @@ def view(request, option):
 
 def donate(request, id=None):
     donation_plan = None
+    form = Donate()
     if id:
         donation_plan = get_object_or_404(DonationPlan, id=id)
+        form = Donate(request.POST or None, instance=donation_plan)
     else:
         donation_plan = DonationPlan.objects.all()
-    form = Donate()
-    if request.method=='POST':
+    if request.method == 'POST':
         form = Donate(request.POST)
         form.save()
         return redirect('index')
@@ -113,6 +111,11 @@ def edit(request, option, id):
     return render(request, 'tool/edit.html', {'option': option, 'form': form})
 
 
+def import_data(request):
+    form = ImportForm()
+    return render(request, 'tool/import_data.html', {'form': form})
+
+
 def create_user(request):
     if str(request.user) is 'AnonymousUser':
         return redirect('login')
@@ -121,7 +124,6 @@ def create_user(request):
         print(request.POST)
         user = User.objects.create_user(username=request.POST['username'], password=request.POST['password1'])
         forms.UserCreationForm(request.POST).save()
-    print(request.method)
     return render(request, 'tool/create.html', {'form': form})
 
 

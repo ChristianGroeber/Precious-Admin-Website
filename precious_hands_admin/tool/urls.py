@@ -14,4 +14,5 @@ urlpatterns = [
     path('tool/<option>/view/', views.view),
     path('tool/user/edit/me/', views.edit_user),
     path('tool/<option>/edit/<id>/', views.edit),
+    path('tool/import/', views.import_data, name='import_data'),
 ]
