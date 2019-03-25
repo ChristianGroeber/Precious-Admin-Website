@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from .models import Child, Donor, DonationPlan
+from .models import Child, Donor, DonationPlan, Donation
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -55,3 +55,9 @@ class CustomUserCreationForm(forms.Form):
             password=self.cleaned_data['password1'],
             email=self.email
         )
+
+
+class Donate(forms.ModelForm):
+    class Meta:
+        model = Donation
+        fields = ('date_donated', )

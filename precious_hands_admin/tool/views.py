@@ -1,6 +1,6 @@
 import django
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CreateChild, CreateDonationPlan, CreateDonor, CustomUserCreationForm
+from .forms import CreateChild, CreateDonationPlan, CreateDonor, CustomUserCreationForm, Donate
 from .models import Child, Donor, DonationPlan
 from django.contrib.auth import authenticate, login, logout, forms
 from django.contrib.auth.models import User
@@ -77,7 +77,8 @@ def view(request, option):
 
 def donate(request, id):
     donation_plan = get_object_or_404(DonationPlan, id=id)
-    return render(request, 'tool/donate.html', {'donation_plan': donation_plan})
+    form = Donate()
+    return render(request, 'tool/donate.html', {'donation_plan': donation_plan, 'form': form})
 
 
 def edit(request, option, id):

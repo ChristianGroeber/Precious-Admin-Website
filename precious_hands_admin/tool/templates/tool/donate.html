@@ -1,6 +1,10 @@
 {% extends 'tool/base.html' %}
 
 {% block content %}
-<h6>Donated</h6>
-<p>{{donation_plan}}</p>
+<h4>Donate</h4>
+<h5>{{donation_plan.donor}}</h5><p>donates to</p> <h5>{{donation_plan.child}}</h5>
+<form class="donate" method="POST">
+    {%csrf_token%}
+    {{form.as_p}}
+</form>
 {% endblock %}

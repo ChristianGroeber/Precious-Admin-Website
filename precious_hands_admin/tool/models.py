@@ -45,3 +45,8 @@ class DonationPlan(models.Model):
 
     def __str__(self):
         return str(self.donor) + 'donates to ' + str(self.child) + ' ' + str(self.interval)
+
+
+class Donation(models.Model):
+    donation_plan = ForeignKey(DonationPlan, on_delete=models.CASCADE)
+    date_donated = models.DateField()
