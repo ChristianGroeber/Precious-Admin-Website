@@ -112,8 +112,14 @@ def edit(request, option, id):
 
 
 def import_data(request):
-    form = ImportForm()
-    return render(request, 'tool/import_data.html', {'form': form})
+    form = ImportForm(request.POST, request.FILES)
+    data = None
+    print(form.is_valid())
+    if request.method == 'POST':
+        form = ImportForm(request.POST, request.FILES)
+        print(form)
+        form.save()
+    return render(request, 'tool/import_data.html', {'form': form, 'data': data})
 
 
 def create_user(request):
@@ -137,7 +143,7 @@ def user_logout(request):
 def edit_user(request):
     if str(request.user) is 'AnonymousUser':
         return redirect('login')
-    form = CustomUserCreationForm(request.POST)
+    form = forms.UserChangeForm(request.POST)
     if request.method == 'POST':
         form.save(request)
         return redirect('index')

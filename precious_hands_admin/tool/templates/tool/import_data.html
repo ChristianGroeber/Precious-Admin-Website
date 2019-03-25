@@ -2,8 +2,10 @@
 
 {% block content %}
 <h4>Import Data</h4>
+{{ data }}
 <form class="import" method="POST">
     {% csrf_token %}
     {{form.as_p}}
+    <button type="submit">Import</button>
 </form>
 {% endblock %}

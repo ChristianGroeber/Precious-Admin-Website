@@ -53,3 +53,7 @@ class Donation(models.Model):
 
     def __str__(self):
         return str(self.donation_plan.donor.first_name) + ' donated CHF ' + str(self.donation_plan.amount) + ' on the ' + str(self.date_donated)
+
+
+class ImportedData(models.Model):
+    import_data = models.FileField(upload_to='data/%D-%m-%Y')

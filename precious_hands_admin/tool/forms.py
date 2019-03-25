@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Child, Donor, DonationPlan, Donation
+from .models import Child, Donor, DonationPlan, Donation, ImportedData
 
 
 class CreateChild(forms.ModelForm):
@@ -37,5 +37,7 @@ class Donate(forms.ModelForm):
         fields = ('donation_plan', 'date_donated')
 
 
-class ImportForm(forms.Form):
-    file = forms.FileField(allow_empty_file=False)
+class ImportForm(forms.ModelForm):
+    class Meta:
+        model = ImportedData
+        fields = ('import_data', )

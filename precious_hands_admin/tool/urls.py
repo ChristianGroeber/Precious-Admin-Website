@@ -1,6 +1,9 @@
 from django.conf.urls import url
 from django.urls import path
 
+from django.conf import settings
+from django.views.static import serve
+
 from . import views
 
 urlpatterns = [
@@ -16,3 +19,10 @@ urlpatterns = [
     path('tool/<option>/edit/<id>/', views.edit),
     path('tool/import/', views.import_data, name='import_data'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += [
+        url(r'^media/(?P<path>.*)$', serve, {
+            'document_root': settings.MEDIA_ROOT,
+        }),
+    ]
