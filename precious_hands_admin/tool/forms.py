@@ -12,7 +12,7 @@ class CreateChild(forms.ModelForm):
 class CreateDonor(forms.ModelForm):
     class Meta:
         model = Donor
-        fields = ('name', 'first_name', 'email_address', 'road', 'house_number', 'plz', 'city')
+        exclude = ()
 
 
 class CreateDonationPlan(forms.ModelForm):

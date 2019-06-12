@@ -1,4 +1,3 @@
-from django import forms
 from django.db import models
 
 # Create your models here.
@@ -15,14 +14,27 @@ class Child(models.Model):
         return str(self.first_name) + ' ' + str(self.name)
 
 
+class Title(models.Model):
+    name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name
+
+
 class Donor(models.Model):
+    title = models.ForeignKey(Title, models.CASCADE, null=True)
     name = models.CharField(max_length=200)
     first_name = models.CharField(max_length=200)
-    email_address = models.CharField(max_length=300, default="")
+    email_address = models.CharField(max_length=300, blank=True)
+    phone_number = models.CharField(max_length=15, blank=True)
     road = models.CharField(max_length=100)
     house_number = models.CharField(max_length=10)
     plz = models.CharField(max_length=4)
     city = models.CharField(max_length=50)
+    info_letter_paper = models.BooleanField(default=False)
+    info_letter_mail = models.BooleanField(default=False)
+    is_member = models.BooleanField(default=False)
+    internal_job = models.CharField(max_length=50, blank=True)
 
     def __str__(self):
         return str(self.first_name) + ' ' + str(self.name)
