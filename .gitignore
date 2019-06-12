@@ -2,3 +2,5 @@ venv/*
 precious_hands_admin/static/*
 *.xlsx
 *.csv
+*.sqlite3
+.idea/
