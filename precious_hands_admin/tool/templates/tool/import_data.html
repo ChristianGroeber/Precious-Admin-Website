@@ -4,25 +4,30 @@
 {% if messages %}
 {% for message in messages %}
     <div>
-        <strong>{{ message|safe }}</strong>
+        <h2>{{ message|safe }}</h2>
     </div>
+    <a href="../import/">back</a>
 {% endfor %}
 
 {% else %}
 <h4>Import Data</h4>
 {{ data }}
 
+<h6>Import Donor Data</h6>
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <label>Upload a file</label>
-    <input type="file" name="file">
-    <p>ONLY ACCEPTS CSV FILES</p>
+    <input type="file" name="donors">
     <button type="submit">Upload</button>
 </form>
-<form class="import" method="POST">
+
+<h6>Import Children Data</h6>
+<form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    {{form.as_p}}
-    <button type="submit">Import</button>
+    <label>Upload a file</label>
+    <input type="file" name="children">
+    <button type="submit">Upload</button>
 </form>
+
 {% endif %}
 {% endblock %}

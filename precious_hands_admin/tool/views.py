@@ -1,6 +1,8 @@
 import django, csv, io
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.datastructures import MultiValueDictKeyError
+
 from .forms import CreateChild, CreateDonationPlan, CreateDonor, Donate, ImportForm
 from .models import Child, Donor, DonationPlan, Donation, Title
 from django.contrib.auth import authenticate, login, logout, forms
@@ -112,23 +114,7 @@ def edit(request, option, id):
     return render(request, 'tool/edit.html', {'option': option, 'form': form})
 
 
-def import_data(request):
-    template = 'tool/import_data.html'
-
-    prompt = {
-        'order': 'Order of the CSV should be "title", "Name", "First Name", "Road", "Zip Code", "City", "Email"',
-    }
-
-    if str(request.method) == 'GET':
-        return render(request, template, prompt)
-
-    csv_file = request.FILES['file']
-    if not csv_file.name.endswith('.csv'):
-        messages.error(request, 'This is not a CSV File')
-
-    data_set = csv_file.read().decode('UTF-8')
-    io_string = io.StringIO(data_set)
-    next(io_string)
+def import_donor(io_string):
     for column in csv.reader(io_string, delimiter=',', quotechar='|'):
         title = column[0]
         for i in Title.objects.all():
@@ -147,20 +133,48 @@ def import_data(request):
             email_address=column[6],
             phone_number=column[7],
         )
-    context = {}
-    return render(request, template, context)
 
-    """
-    form = ImportForm()
-    data = None
-    if request.method == 'POST':
-        print(form.is_valid())
-        form = ImportForm(request.POST, request.FILES)
-        print(request.FILES)
-        if form.is_valid():
-            print(form)
-            form.save()
-    return render(request, 'tool/import_data.html', {'form': form, 'data': data})"""
+
+def import_child(io_string):
+    for column in csv.reader(io_string, delimiter=',', quotechar='|'):
+        _, created = Donor.objects.update_or_create(
+            name=column[0],
+            first_name=column[1],
+            birthday=column[2],
+        )
+
+
+def import_data(request):
+    template = 'tool/import_data.html'
+
+    if str(request.method) == 'GET':
+        return render(request, template)
+
+    donors_or_children = False
+    csv_file = ""
+    try:
+        csv_file = request.FILES['donors']
+    except MultiValueDictKeyError:
+        try:
+            csv_file = request.FILES['children']
+            donors_or_children = True
+        except MultiValueDictKeyError:
+            messages.error(request, 'error, please try again')
+            return render(request, template)
+
+    if not csv_file.name.endswith('.csv'):
+        messages.error(request, 'This is not a CSV File')
+        return render(request, template)
+
+    data_set = csv_file.read().decode('UTF-8')
+    io_string = io.StringIO(data_set)
+    next(io_string)
+    if not donors_or_children:
+        import_donor(io_string)
+    else:
+        import_child(io_string)
+
+    return redirect('../')
 
 
 def create_user(request):
