@@ -1,7 +1,8 @@
-import django
+import django, csv, io
+from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CreateChild, CreateDonationPlan, CreateDonor, Donate, ImportForm
-from .models import Child, Donor, DonationPlan, Donation
+from .models import Child, Donor, DonationPlan, Donation, Title
 from django.contrib.auth import authenticate, login, logout, forms
 from django.contrib.auth.models import User
 
@@ -112,14 +113,54 @@ def edit(request, option, id):
 
 
 def import_data(request):
-    form = ImportForm(request.POST, request.FILES)
+    template = 'tool/import_data.html'
+
+    prompt = {
+        'order': 'Order of the CSV should be "title", "Name", "First Name", "Road", "Zip Code", "City", "Email"',
+    }
+
+    if str(request.method) == 'GET':
+        return render(request, template, prompt)
+
+    csv_file = request.FILES['file']
+    if not csv_file.name.endswith('.csv'):
+        messages.error(request, 'This is not a CSV File')
+
+    data_set = csv_file.read().decode('UTF-8')
+    io_string = io.StringIO(data_set)
+    next(io_string)
+    for column in csv.reader(io_string, delimiter=',', quotechar='|'):
+        title = column[0]
+        for i in Title.objects.all():
+            if i.name == title:
+                title = i
+                break
+        else:
+            title = Title.objects.get(pk=1)
+        _, created = Donor.objects.update_or_create(
+            title=title,
+            name=column[1],
+            first_name=column[2],
+            road=column[3],
+            plz=column[4],
+            city=column[5],
+            email_address=column[6],
+            phone_number=column[7],
+        )
+    context = {}
+    return render(request, template, context)
+
+    """
+    form = ImportForm()
     data = None
-    print(form.is_valid())
     if request.method == 'POST':
+        print(form.is_valid())
         form = ImportForm(request.POST, request.FILES)
-        print(form)
-        form.save()
-    return render(request, 'tool/import_data.html', {'form': form, 'data': data})
+        print(request.FILES)
+        if form.is_valid():
+            print(form)
+            form.save()
+    return render(request, 'tool/import_data.html', {'form': form, 'data': data})"""
 
 
 def create_user(request):

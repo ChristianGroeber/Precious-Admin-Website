@@ -28,7 +28,6 @@ class Donor(models.Model):
     email_address = models.CharField(max_length=300, blank=True)
     phone_number = models.CharField(max_length=15, blank=True)
     road = models.CharField(max_length=100)
-    house_number = models.CharField(max_length=10)
     plz = models.CharField(max_length=4)
     city = models.CharField(max_length=50)
     info_letter_paper = models.BooleanField(default=False)

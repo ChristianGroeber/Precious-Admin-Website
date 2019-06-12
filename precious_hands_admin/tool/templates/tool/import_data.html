@@ -1,11 +1,28 @@
 {% extends 'tool/base.html' %}
 
 {% block content %}
+{% if messages %}
+{% for message in messages %}
+    <div>
+        <strong>{{ message|safe }}</strong>
+    </div>
+{% endfor %}
+
+{% else %}
 <h4>Import Data</h4>
 {{ data }}
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label>Upload a file</label>
+    <input type="file" name="file">
+    <p>ONLY ACCEPTS CSV FILES</p>
+    <button type="submit">Upload</button>
+</form>
 <form class="import" method="POST">
     {% csrf_token %}
     {{form.as_p}}
     <button type="submit">Import</button>
 </form>
+{% endif %}
 {% endblock %}
