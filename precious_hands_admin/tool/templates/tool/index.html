@@ -1,32 +1,38 @@
 {% extends 'tool/base.html' %}
 
 {% block content %}
-<h4>What would you like to do?</h4>
-<h5>Create: </h5>
-<ul>
-    <li><a href="child/create">Create Child</a></li>
-    <li><a href="donor/create">Create Donor</a></li>
-    <li><a href="donation_plan/create/">Create Donation Plan</a></li>
-    <li><a href="donation_plan/donate/">Create Donation</a></li>
-    {% if user_group == 'Administrators' %}
-        <li><a href="user/create/">Create new User</a></li>
-    {% endif %}
-</ul>
-
-<h5>View: </h5>
-<ul>
-    <li><a href="child/view">View Child</a></li>
-    <li><a href="donor/view">View Donor</a></li>
-    <li><a href="donation_plan/view">View Donation Plan</a></li>
-    <li><a href="donate/view">View Donations</a></li>
-    {% if user_group == 'Administrators' %}
-        <li><a href="user/view/">View Users</a></li>
-    {% endif %}
-</ul>
-
-<h5>Other:</h5>
-<ul>
-    <li><a href="import">Import Data</a></li>
-    <li><a href="export">Export Data</a></li>
-</ul>
+<h3>What would you like to do?</h3>
+<div class="row">
+    <div class="col-sm-5 option-card card">
+        <h5>Create: </h5>
+        <ul>
+            <li><a href="child/create">Create Child</a></li>
+            <li><a href="donor/create">Create Donor</a></li>
+            <li><a href="donation_plan/create/">Create Donation Plan</a></li>
+            <li><a href="donation_plan/donate/">Create Donation</a></li>
+            {% if user_group == 'Administrators' %}
+                <li><a href="user/create/">Create new User</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="col-sm-5 option-card card">
+        <h5>View: </h5>
+        <ul>
+            <li><a href="child/view">View Children</a></li>
+            <li><a href="donor/view">View Donors</a></li>
+            <li><a href="donation_plan/view">View Donation Plans</a></li>
+            <li><a href="donate/view">View Donations</a></li>
+            {% if user_group == 'Administrators' %}
+                <li><a href="user/view/">View Users</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="col-sm-5 option-card card">
+        <h5>Other:</h5>
+        <ul>
+            <li><a href="import">Import Data</a></li>
+            <li><a href="export">Export Data</a></li>
+        </ul>
+    </div>
+</div>
 {% endblock %}

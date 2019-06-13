@@ -1,7 +1,26 @@
 {% extends 'tool/base.html' %}
 
 {% block content %}
-<h6>{{ option }}</h6>
+<style>
+    .card {
+        padding: 20px;
+        margin-bottom: 40px;
+    }
+</style>
+<div class="card">
+    <h3>View
+    {% if option == "child" %}
+    a child
+    {% elif option == 'donor' %}
+    a donor
+    {% elif option == 'donate' %}
+    a donation
+    {% elif option == 'donation_plan' %}
+    a Donationplan
+    {% elif option == 'user' %}
+    a User
+    {% endif %}
+    </h3>
 {% for x in ret %}
 <p><a href="../../{{ option }}/edit/{{x.id}}">{{x}}</a>
     <script>
@@ -12,4 +31,5 @@
     {% endif %}
 </p>
 {% endfor %}
+    </div>
 {% endblock %}

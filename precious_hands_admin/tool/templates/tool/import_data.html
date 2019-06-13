@@ -1,6 +1,13 @@
 {% extends 'tool/base.html' %}
 
 {% block content %}
+<style>
+    .card {
+        padding: 20px;
+        margin-bottom: 40px;
+    }
+</style>
+<div class="card">
 {% if messages %}
 {% for message in messages %}
     <div>
@@ -10,24 +17,25 @@
 {% endfor %}
 
 {% else %}
-<h4>Import Data</h4>
+<h3>Import Data</h3>
 {{ data }}
 
-<h6>Import Donor Data</h6>
+<h4>Import Donor Data</h4>
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    <label>Upload a file</label>
-    <input type="file" name="donors">
+    <label for="import_donors" class="input-field">Upload a file</label>
+    <input type="file" id="import_donors" name="donors">
     <button type="submit">Upload</button>
 </form>
 
-<h6>Import Children Data</h6>
+<h4>Import Children Data</h4>
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    <label>Upload a file</label>
-    <input type="file" name="children">
+    <label for="import_children" class="input-field">Upload a file</label>
+    <input type="file" id="import_children" name="children">
     <button type="submit">Upload</button>
 </form>
 
 {% endif %}
+</div>
 {% endblock %}

@@ -1,10 +1,16 @@
 {% extends 'tool/base.html' %}
-
 {% block content %}
-<h6>Add a new {{ option }}</h6>
-<form class="create" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{form.as_p }}
+<style>
+    .card {
+        padding: 20px;
+        margin-bottom: 40px;
+    }
+</style>
+<div class="card">
+    <h3>Add a new {{ option }}</h3>
+    <form class="create" method="POST" enctype="multipart/form-data">
+        {% csrf_token %} {{form.as_p }}
         <button type="submit">Save</button>
-</form>
+    </form>
+</div>
 {% endblock %}

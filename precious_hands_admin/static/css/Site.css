@@ -1,5 +1,6 @@
 body{
     padding-top: 0px !important;
+    overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6, .product-sans{
@@ -7,8 +8,9 @@ h1, h2, h3, h4, h5, h6, .product-sans{
 }
 
 .content{
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
 }
 
 .my-navbar{
@@ -19,6 +21,7 @@ h1, h2, h3, h4, h5, h6, .product-sans{
     border-radius: 50%;
     height: 50px;
     float: right;
+    border: 2px solid rgba(0,0,0,0.3);
 }
 
 .profile-image:hover{
@@ -30,14 +33,86 @@ h1, h2, h3, h4, h5, h6, .product-sans{
     position: absolute;
     min-height: 50px;
     min-width: 150px;
-    background-color: white;
-    box-shadow: 0 0 5px rgba(0,0,0,0.5);
     z-index: 100;
     padding: 5px;
-    border-radius: 2px;
-    border: 1px solid rgba(0,0,0,.2);
     margin-top: 60px;
     right: 10;
+}
+
+.card{
+    background-color: white;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    border-radius: 2px;
+    border: 1px solid rgba(0,0,0,.2);
+}
+
+.option-card{
+    padding: 20px;
+    margin: 20px;
+}
+
+footer{
+    padding: 20px;
+}
+
+input[type=text], input[type=number]{
+    width: 100%;
+    background-color: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+input[type=text]:focus, input[type=number]:focus{
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+input[type=text]:hover, input[type=number]:hover{
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+input[type=file]{
+    width: 0.1px;
+    height: 0.1px;
+}
+
+label[for=id_image], .input-field{
+    background-color: #4285F4;
+    color: white;
+    padding: 10px;
+    min-width: 80px;
+    border-radius: 2px;
+}
+
+label[for=id_image]:hover, .input-field:hover{
+    cursor: pointer;
+}
+
+button{
+    background-color: #0F9D58 !important;
+    border: none;
+    padding: 10px;
+    color: white;
+    min-width: 80px;
+    border-radius: 2px;
+    width: 100%;
+}
+
+button:hover{
+    cursor:pointer;
+    box-shadow: 0 0 4px rgba(0,0,0,0.5);
+}
+
+select {
+   -webkit-appearance: none;
+   -moz-appearance: none;
+   appearance: none;       /* remove default arrow */
+   background-color: white;
+   padding: 5px;
+   border-radius: 2px;
+   border: 1px solid rgba(0,0,0,0.2);
+}
+
+select:hover{
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
 
 @font-face{
