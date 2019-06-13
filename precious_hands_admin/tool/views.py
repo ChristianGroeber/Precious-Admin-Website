@@ -123,6 +123,10 @@ def import_donor(io_string):
                 break
         else:
             title = Title.objects.get(pk=1)
+        letter_paper = column[9] == 'x'
+        letter_mail = column[10] == 'x'
+        is_member = column[11] == 'x'
+        job_description = column[12]
         _, created = Donor.objects.update_or_create(
             title=title,
             name=column[1],
@@ -132,6 +136,10 @@ def import_donor(io_string):
             city=column[5],
             email_address=column[6],
             phone_number=column[7],
+            info_letter_paper=letter_paper,
+            info_letter_mail=letter_mail,
+            is_member=is_member,
+            internal_job=job_description,
         )
 
 
