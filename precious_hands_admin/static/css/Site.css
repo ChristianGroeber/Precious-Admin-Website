@@ -1,3 +1,17 @@
 body{
     padding-top: 0px !important;
 }
+
+h1, h2, h3, h4, h5, h6, .product-sans{
+    font-family: Product-Sans-Regular;
+}
+
+.content{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+@font-face{
+    font-family: 'Product-Sans-Regular';
+    src: url("/static/fonts/Product Sans Regular.ttf");
+}
