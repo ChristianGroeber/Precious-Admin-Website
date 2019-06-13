@@ -11,6 +11,11 @@ h1, h2, h3, h4, h5, h6, .product-sans{
     margin-right: 10px;
 }
 
+.profile-image {
+    border-radius: 50%;
+    height: 50px;
+}
+
 @font-face{
     font-family: 'Product-Sans-Regular';
     src: url("/static/fonts/Product Sans Regular.ttf");

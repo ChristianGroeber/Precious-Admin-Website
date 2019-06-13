@@ -1,4 +1,5 @@
 {% load static %}
+{% load thumbnail %}
 
 <html lang="en">
 <head>
@@ -16,8 +17,9 @@
             <h2>Precious Hands Administration Tool</h2>
         </div>
         <div class="col-sm-4">
-            <a href="tool/logout/">Logout</a> |
-            <a href="user/edit/me">Edit Settings</a>
+            <!--<a href="tool/logout/">Logout</a> |
+            <a href="user/edit/me">Edit Settings</a>-->
+            <img class="profile-image" src="{{ profile_image.url }}">
         </div>
     </div>
 </div>
