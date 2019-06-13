@@ -1,7 +1,13 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
 from django.db.models import ForeignKey
+
+
+class MyUser(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_picture = models.ImageField(upload_to='profile_images')
 
 
 class Child(models.Model):

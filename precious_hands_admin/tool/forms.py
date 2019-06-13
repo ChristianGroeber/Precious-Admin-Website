@@ -1,7 +1,7 @@
 from django import forms
-from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
+from django.contrib.auth.forms import UserChangeForm
 
-from .models import Child, Donor, DonationPlan, Donation
+from .models import Child, Donor, DonationPlan, Donation, MyUser
 from django.contrib.auth.models import User
 
 

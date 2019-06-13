@@ -1,13 +1,18 @@
-import django, csv, io
+import os
+
+import django, csv, io, json, random
 from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.datastructures import MultiValueDictKeyError
 
 from .forms import CreateChild, CreateDonationPlan, CreateDonor, Donate, CustomCreateUser, EditUserForm
-from .models import Child, Donor, DonationPlan, Donation, Title
+from .models import Child, Donor, DonationPlan, Donation, Title, MyUser
 from django.contrib.auth import authenticate, login, logout, forms
 from django.contrib.auth.models import User, Group
+from precious_hands_admin.settings import MEDIA_ROOT, STATICFILES_DIRS
+
+from PIL import Image, ImageDraw, ImageFont
 
 
 # Create your views here.
@@ -26,11 +31,25 @@ def user_login(request):
     return render(request, 'login/login.html', {'form': form})
 
 
+def create_user_profile_image(user):
+    rnd = random.randint(1, 11)
+    with open(STATICFILES_DIRS[0] + '/json/colors.json', 'r') as f:
+        datastore = json.load(f)
+    color = datastore['calendar'][str(rnd)]['background']
+    text_color = datastore['calendar'][str(rnd)]['foreground']
+    img = Image.new('RGB', (256, 256), color=color)
+    d = ImageDraw.Draw(img)
+    font = ImageFont.truetype(os.path.join(STATICFILES_DIRS[0], 'fonts', 'Product Sans Regular.ttf'), 90)
+    d.text((128-30, 128-50), user.username[0].upper(), fill=text_color, font=font)
+    image_path = os.path.join(MEDIA_ROOT, 'profile_images', user.username + '.jpg')
+    img.save(image_path)
+    return os.path.join('profile_images', user.username + '.jpg')
+
+
 def index(request):
     if str(request.user) is 'AnonymousUser':
         return redirect('login')
     user_group = str(request.user.groups.all()[0])
-    print(user_group)
     return render(request, 'tool/index.html', {'user_type': request.user.is_superuser, 'user_group': user_group})
 
 
@@ -57,6 +76,8 @@ def create(request, option):
                                              first_name=form.cleaned_data['first_name'],
                                              last_name=form.cleaned_data['last_name'])
                 a.save()
+                b = MyUser(user=a, profile_picture=create_user_profile_image(a))
+                b.save()
                 Group.objects.get(name='Employees').user_set.add(a)
                 return redirect('index')
         if form.is_valid():
