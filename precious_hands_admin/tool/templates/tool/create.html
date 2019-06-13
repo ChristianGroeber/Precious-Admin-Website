@@ -2,7 +2,7 @@
 
 {% block content %}
 <h6>Add a new {{ option }}</h6>
-<form class="create" method="POST">
+<form class="create" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{form.as_p }}
         <button type="submit">Save</button>

@@ -8,7 +8,7 @@ class Child(models.Model):
     name = models.CharField(max_length=200)
     first_name = models.CharField(max_length=200)
     birthday = models.DateField()
-    image = models.ImageField(blank=True)
+    image = models.ImageField(blank=True, upload_to='children/')
 
     def __str__(self):
         return str(self.first_name) + ' ' + str(self.name)

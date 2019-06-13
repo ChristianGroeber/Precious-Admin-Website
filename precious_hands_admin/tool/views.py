@@ -38,7 +38,11 @@ def create(request, option):
     if str(request.user) is 'AnonymousUser':
         return redirect('login')
     if request.method == 'POST':
-        form = CreateChild(request.POST)
+        if option == 'child':
+            form = CreateChild(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+                return redirect('index')
         if option == 'donor':
             form = CreateDonor(request.POST)
         elif option == 'donation_plan':
