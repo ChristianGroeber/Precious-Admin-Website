@@ -7,18 +7,46 @@
     <link rel='stylesheet' href="{% static 'css/bootstrap.min.css' %}">
     <link rel='stylesheet' href="{% static 'css/Site.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        var popupShowing = false;
+        $(document).ready(function(){
+            $('.profile-image').click(function(){
+                if (!popupShowing){
+                    $('.popup-user').css('display', 'Block');
+                    popupShowing = true;
+                }else{
+                    $('.popup-user').css('display', 'None');
+                    popupShowing = false;
+                }
+            })
+        })
+
+        window.addEventListener('mouseup', function(event){
+            var box = document.getElementById('popup');
+            if (event.target != box && event.target.parentNode != box){
+                $('.popup-user').css('display', 'None');
+                popupShowing = false;
+            }
+        });
+    </script>
 </head>
 <body>
 <div class="my-navbar">
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-10">
             <!--<img src="{% static 'img/Precious_Logo.png' %}" width="80">-->
             <h2>Precious Hands Administration Tool</h2>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-2">
             <!--<a href="tool/logout/">Logout</a> |
             <a href="user/edit/me">Edit Settings</a>-->
             <img class="profile-image" src="{{ profile_image.url }}">
+            <div class="popup-user" id="popup">
+                <b class="product-sans">{{ user.first_name }} {{ user.last_name }}</b><br>
+                <a href="tool/logout/">Logout</a><br>
+                <a href="user/edit/me">Edit Settings</a>
+            </div>
         </div>
     </div>
 </div>

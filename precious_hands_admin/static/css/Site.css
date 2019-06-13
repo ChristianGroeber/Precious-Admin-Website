@@ -11,9 +11,33 @@ h1, h2, h3, h4, h5, h6, .product-sans{
     margin-right: 10px;
 }
 
+.my-navbar{
+    padding: 20px;
+}
+
 .profile-image {
     border-radius: 50%;
     height: 50px;
+    float: right;
+}
+
+.profile-image:hover{
+    cursor:pointer;
+}
+
+.popup-user{
+    display: None;
+    position: absolute;
+    min-height: 50px;
+    min-width: 150px;
+    background-color: white;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    z-index: 100;
+    padding: 5px;
+    border-radius: 2px;
+    border: 1px solid rgba(0,0,0,.2);
+    margin-top: 60px;
+    right: 10;
 }
 
 @font-face{
