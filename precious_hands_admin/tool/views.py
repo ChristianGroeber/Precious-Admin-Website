@@ -1,9 +1,10 @@
 import django, csv, io
 from django.contrib import messages
+from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.datastructures import MultiValueDictKeyError
 
-from .forms import CreateChild, CreateDonationPlan, CreateDonor, Donate, CustomCreateUser
+from .forms import CreateChild, CreateDonationPlan, CreateDonor, Donate, CustomCreateUser, EditUserForm
 from .models import Child, Donor, DonationPlan, Donation, Title
 from django.contrib.auth import authenticate, login, logout, forms
 from django.contrib.auth.models import User, Group
@@ -208,8 +209,26 @@ def user_logout(request):
 def edit_user(request):
     if str(request.user) is 'AnonymousUser':
         return redirect('login')
-    form = forms.UserChangeForm(request.POST)
+    user = request.user
+    form = EditUserForm(instance=user)
     if request.method == 'POST':
-        form.save(request)
+        form = EditUserForm(request.POST, instance=user)
+        if form.is_valid():
+            print('valid')
+            form.save()
         return redirect('index')
     return render(request, 'tool/edit.html', {'form': form})
+
+
+def edit_password(request):
+    if str(request.user) is 'AnonymousUser':
+        return redirect('login')
+    user = request.user
+    form = PasswordChangeForm(user=user)
+    if str(request.method == 'POST'):
+        form = PasswordChangeForm(user, request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    return render(request, 'tool/edit.html', {'form': form})
+

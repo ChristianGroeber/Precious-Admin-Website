@@ -1,6 +1,8 @@
 from django import forms
+from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 
-from .models import Child, Donor, DonationPlan, Donation, ImportedData
+from .models import Child, Donor, DonationPlan, Donation
+from django.contrib.auth.models import User
 
 
 class CreateChild(forms.ModelForm):
@@ -30,6 +32,12 @@ class CustomCreateUser(forms.Form):
     username = forms.CharField(max_length=150)
     first_name = forms.CharField(max_length=150)
     last_name = forms.CharField(max_length=150)
+
+
+class EditUserForm(UserChangeForm):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name']
 
 
 class Donate(forms.ModelForm):
