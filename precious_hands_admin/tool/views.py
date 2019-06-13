@@ -3,10 +3,10 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.datastructures import MultiValueDictKeyError
 
-from .forms import CreateChild, CreateDonationPlan, CreateDonor, Donate, ImportForm
+from .forms import CreateChild, CreateDonationPlan, CreateDonor, Donate, CustomCreateUser
 from .models import Child, Donor, DonationPlan, Donation, Title
 from django.contrib.auth import authenticate, login, logout, forms
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 
 # Create your views here.
@@ -28,7 +28,9 @@ def user_login(request):
 def index(request):
     if str(request.user) is 'AnonymousUser':
         return redirect('login')
-    return render(request, 'tool/index.html', {'user_type': request.user.is_superuser})
+    user_group = str(request.user.groups.all()[0])
+    print(user_group)
+    return render(request, 'tool/index.html', {'user_type': request.user.is_superuser, 'user_group': user_group})
 
 
 def create(request, option):
@@ -39,7 +41,18 @@ def create(request, option):
         if option == 'donor':
             form = CreateDonor(request.POST)
         elif option == 'donation_plan':
-            form = forms.UserCreationForm(request.POST)
+            form = CreateDonationPlan(request.POST)
+        elif option == 'user' and str(request.user.groups.all()[0]) == 'Administrators':
+            form = CustomCreateUser(request.POST)
+            if form.is_valid():
+                print(form.cleaned_data)
+                a = User.objects.create_user(username=form.cleaned_data['username'],
+                                             password='1234',
+                                             first_name=form.cleaned_data['first_name'],
+                                             last_name=form.cleaned_data['last_name'])
+                a.save()
+                Group.objects.get(name='Employees').user_set.add(a)
+                return redirect('index')
         if form.is_valid():
             form_data = form.save(commit=False)
             form_data.save()
@@ -52,8 +65,8 @@ def create(request, option):
             form = CreateDonor()
         elif option == 'donation_plan':
             form = CreateDonationPlan()
-        elif option == 'user' and request.user.is_superuser:
-            form = forms.UserCreationForm()
+        elif option == 'user' and str(request.user.groups.all()[0]) == 'Administrators':
+            form = CustomCreateUser()
         return render(request, 'tool/create.html', {'form': form, 'option': option})
 
 
@@ -183,17 +196,6 @@ def import_data(request):
         import_child(io_string)
 
     return redirect('../')
-
-
-def create_user(request):
-    if str(request.user) is 'AnonymousUser':
-        return redirect('login')
-    form = forms.UserCreationForm()
-    if request.method == 'POST' and form.is_valid():
-        print(request.POST)
-        user = User.objects.create_user(username=request.POST['username'], password=request.POST['password1'])
-        forms.UserCreationForm(request.POST).save()
-    return render(request, 'tool/create.html', {'form': form})
 
 
 def user_logout(request):

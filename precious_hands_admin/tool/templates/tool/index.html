@@ -8,7 +8,7 @@
     <li><a href="donor/create">Create Donor</a></li>
     <li><a href="donation_plan/create/">Create Donation Plan</a></li>
     <li><a href="donation_plan/donate/">Create Donation</a></li>
-    {% if user_type %}
+    {% if user_group == 'Administrators' %}
         <li><a href="user/create/">Create new User</a></li>
     {% endif %}
 </ul>
@@ -19,7 +19,7 @@
     <li><a href="donor/view">View Donor</a></li>
     <li><a href="donation_plan/view">View Donation Plan</a></li>
     <li><a href="donate/view">View Donations</a></li>
-    {% if user_type %}
+    {% if user_group == 'Administrators' %}
         <li><a href="user/view/">View Users</a></li>
     {% endif %}
 </ul>

@@ -26,18 +26,13 @@ class LoginUser(forms.ModelForm):
         fields = ('name', 'password')
 
 
-class CreateUser(forms.Form):
+class CustomCreateUser(forms.Form):
     username = forms.CharField(max_length=150)
     first_name = forms.CharField(max_length=150)
+    last_name = forms.CharField(max_length=150)
 
 
 class Donate(forms.ModelForm):
     class Meta:
         model = Donation
         fields = ('donation_plan', 'date_donated')
-
-
-class ImportForm(forms.ModelForm):
-    class Meta:
-        model = ImportedData
-        fields = ('import_data', )
