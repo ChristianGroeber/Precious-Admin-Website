@@ -7,10 +7,12 @@
 {% endfor %}
 {% endif %}
 <h6>{{ option }}</h6>
-<form class="create" method="POST">
+{% if image %}
+<img src="{{ image.url }}" width="300">
+{% endif %}
+<form class="create" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{form.as_p }}
         <button type="submit">Save</button>
 </form>
-
 {% endblock %}

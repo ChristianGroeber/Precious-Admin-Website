@@ -43,6 +43,7 @@ def create(request, option):
             if form.is_valid():
                 form.save()
                 return redirect('index')
+        form = None
         if option == 'donor':
             form = CreateDonor(request.POST)
         elif option == 'donation_plan':
@@ -115,9 +116,11 @@ def edit(request, option, id):
         return redirect('login')
     obj = None
     form = None
+    context = {}
     if option == 'child':
         obj = get_object_or_404(Child, id=id)
-        form = CreateChild(request.POST or None, instance=obj)
+        form = CreateChild(request.POST or None, request.FILES or None, instance=obj)
+        context['image'] = obj.image
     elif option == 'donor':
         obj = get_object_or_404(Donor, id=id)
         form = CreateDonor(request.POST or None, instance=obj)
@@ -129,7 +132,9 @@ def edit(request, option, id):
     if form.is_valid():
         form.save()
         return redirect('index')
-    return render(request, 'tool/edit.html', {'option': option, 'form': form})
+    context['option'] = option
+    context['form'] = form
+    return render(request, 'tool/edit.html', context)
 
 
 def import_donor(io_string):
