@@ -21,15 +21,17 @@
     a User
     {% endif %}
     </h3>
-{% for x in ret %}
-<p><a href="../../{{ option }}/edit/{{x.id}}">{{x}}</a>
-    <script>
-        console.log("{{ option }}");
-    </script>
-{% if option == "donation_plan" %}
-    <a href="../donate/{{x.id}}"> | Donate</a>
-    {% endif %}
-</p>
-{% endfor %}
-    </div>
+    <ul>
+    {% for x in ret %}
+    <li><a href="../../{{ option }}/edit/{{x.id}}">{{x}}</a>
+        <script>
+            console.log("{{ option }}");
+        </script>
+    {% if option == "donation_plan" %}
+        <a href="../donate/{{x.id}}"> | Donate</a>
+        {% endif %}
+    </li>
+    {% endfor %}
+    </ul>
+</div>
 {% endblock %}

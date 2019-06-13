@@ -1,18 +1,26 @@
 {% extends 'tool/base.html' %}
 
 {% block content %}
-{% if messages %}
-{% for message in messages %}
-<h6>{{ message|safe }}</h6>
-{% endfor %}
-{% endif %}
-<h6>{{ option }}</h6>
-{% if image %}
-<img src="{{ image.url }}" width="300">
-{% endif %}
-<form class="create" method="POST" enctype="multipart/form-data">
+<style>
+    .card {
+        padding: 20px;
+        margin-bottom: 40px;
+    }
+</style>
+<div class="card">
+    {% if messages %}
+        {% for message in messages %}
+            <h3>{{ message|safe }}</h3>
+        {% endfor %}
+    {% endif %}
+    <h3>{{ option }}</h3>
+    {% if image %}
+        <img src="{{ image.url }}" width="300">
+    {% endif %}
+    <form class="create" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{form.as_p }}
         <button type="submit">Save</button>
-</form>
+    </form>
+</div>
 {% endblock %}

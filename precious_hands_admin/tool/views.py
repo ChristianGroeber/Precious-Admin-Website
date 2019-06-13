@@ -150,6 +150,8 @@ def edit(request, option, id):
         form = CreateDonationPlan(request.POST or None, instance=obj)
     elif option == 'user' and request.user.is_superuser:
         form = forms.UserChangeForm(request.POST or None, instance=request.user)
+    elif option == 'donate':
+        form = Donate(request.POST or None, instance=obj)
     if form.is_valid():
         form.save()
         return redirect('index')

@@ -3,6 +3,7 @@ from django.db import models
 
 # Create your models here.
 from django.db.models import ForeignKey
+from django.utils import timezone
 
 
 class MyUser(models.Model):
@@ -66,7 +67,7 @@ class DonationPlan(models.Model):
 
 class Donation(models.Model):
     donation_plan = ForeignKey(DonationPlan, on_delete=models.CASCADE)
-    date_donated = models.DateField()
+    date_donated = models.DateField(default=timezone.now())
 
     def __str__(self):
         return str(self.donation_plan.donor.first_name) + ' donated CHF ' + str(self.donation_plan.amount) + ' on the ' + str(self.date_donated)
